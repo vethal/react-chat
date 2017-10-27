@@ -3,7 +3,10 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node ./bin/www"
+		"start": "node ./bin/www",
+		"server": "nodemon ./bin/www",
+		"client": "webpack-dev-server",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
 		"body-parser": "~1.18.2",
@@ -11,9 +14,29 @@
 		"debug": "~2.6.9",
 		"ejs": "~2.5.7",
 		"express": "~4.15.5",
+		"mongoose": "^4.12.4",
 		"morgan": "~1.9.0",
 		"serve-favicon": "~2.4.5"
 	},
 	"devDependencies": {
+		"axios": "^0.17.0",
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.2",
+		"babel-plugin-react-html-attrs": "^2.0.0",
+		"babel-plugin-transform-decorators-legacy": "^1.3.4",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-0": "^6.24.1",
+		"html-webpack-plugin": "^2.30.1",
+		"nodemon": "^1.12.1",
+		"path": "^0.12.7",
+		"react": "^16.0.0",
+		"react-dom": "^16.0.0",
+		"react-redux": "^5.0.6",
+		"redux": "^3.7.2",
+		"uglifyjs-webpack-plugin": "^1.0.1",
+		"webpack": "^3.8.1",
+		"webpack-dev-server": "^2.9.3",
+		"write-file-webpack-plugin": "^4.2.0"
 	}
 }
