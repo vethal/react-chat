@@ -1,9 +1,41 @@
-var express = require('express');
-var router = express.Router();
+module.exports = function (passport) {
+	var express = require('express');
+	var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-	res.send('respond with a resource');
-});
+	router.get('/login', function(req, res) {
+		res.render('login.ejs', { message: req.flash('loginMessage') }); 
+	});
 
-module.exports = router;
+	router.get('/signup', function(req, res) {
+		res.render('signup.ejs', { message: req.flash('signupMessage') });
+	});
+
+	router.get('/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
+
+	// process the login form
+	router.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/',
+		failureRedirect : '/login', // redirect back to the login page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+	router.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/',
+		failureRedirect : '/signup', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+	return router;
+}
+
+function isLoggedIn(req, res, next) {
+	// if user is authenticated in the session, carry on 
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	// if they aren't redirect them to the home page
+	res.redirect('/');
+}

@@ -1,3 +1,5 @@
+var Configuration = require('./config/configuration');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,8 +7,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
+var session = require('express-session');
+var MongoStore = require("connect-mongo")(session);
+
 var index = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/users')(passport);
 
 var app = express();
 
@@ -22,8 +30,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+mongoose.connect(Configuration.DB_HOST, { useMongoClient: true }); // connect to database
+require('./config/passport')(passport); // pass passport for configuration
+
+// required for passport
+app.use(session({
+	store: new MongoStore({mongooseConnection: mongoose.connection}),
+	secret: Configuration.SERVER.SESSION_SECRET,
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+app.use('/', users);
 app.use('/', index);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

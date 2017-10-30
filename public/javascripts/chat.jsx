@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
 
-class Layout extends React.Component {
-	render() {
-		return (
-			<div style={{textAlign: 'center'}}>
-				<h1>Hello World</h1>
-			</div>
-		);
-	}
-}
+import Layout from './components/layout.jsx'
+import store from './store'
 
 const app = document.getElementById('app');
-ReactDOM.render(<Layout/>, app);
+ReactDOM.render(<Provider store={store}>
+	<Layout/>
+</Provider>, app);
