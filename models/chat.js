@@ -27,6 +27,11 @@ function Chat(socket) {
 			.then(callback)
 			.catch(() => callback(Dictionary.FETCHING_MESSAGES_FAILURE));
 		},
+		onGetUpdate: (room, callback) => {
+			User.getUpdate(userId, room)
+			.then(callback)
+			.catch(() => callback(Dictionary.FETCHING_UPDATE_FAILURE));
+		},
 		onCreateRoom: (name, callback) => {
 			Room.createRoom(name, userId)
 			.then(() => callback())
@@ -87,11 +92,16 @@ var addParticipants = async (function (user, data) {
 	// add all participants to room
 	await (Room.addParticipants(userIds, data.room));
 	// add room to all participants 
-	let requests = userIds.map((userId) => User.addRoom(userId, data.room));
+	let time = new Date();
+	let requests = userIds.map((userId) => User.addRoom(userId, data.room, time));
 	await (Promise.all(requests));
 	// join all sockets to room
 	userIds.forEach((userId) => {
 		socketList[userId] && socketList[userId].join(data.room);
+	});
+	// send update request
+	socketList[userId].to(data.room).emit('update', {
+		room: data.room
 	});
 });
 
@@ -104,19 +114,27 @@ var exitRoom = async (function (user, room) {
 	await (Room.removeParticipant(userId, room));
 	// remove room from user db
 	await (User.removeRoom(userId, room));
+	// send update request
+	socketList[userId].to(room).emit('update', { room });
 });
 
 // send text implementation
 var sendText = async (function (user, data) {
 	let userId = user['_id'];
+	let {room, text} = data;
 	let time = new Date();
 	// remove participant from room
-	let count = await (Room.addText(userId, data.room, data.text, time));
+	let count = await (Room.addText(userId, room, text, time));
 	// remove room from user db
-	await (User.updateRoom(userId, data.room, count, time));
+	await (User.updateRoom(userId, room, count, time));
 	// send text to room
-	socketList[userId].to(data.room).emit('text', {
-		text: data.text,
-		room: data.room
-	});
+	let message = {
+		from: {
+			name: user.name,
+			email: user.email,
+			lastSean: time
+		}, text, time
+	};
+	socketList[userId].to(data.room).emit('text', { message, room });
+	return message;
 });

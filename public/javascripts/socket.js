@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import Constants from './constants';
 import store from './store'
 
-const {EVENT} = Constants.SOCKET;
+const {EVENT} = Constants.SERVER;
 var socket = io(Constants.HOST);
 
 socket.on('connect', (socket) => {
@@ -48,6 +48,8 @@ socket.on('reconnecting', (attempt) => {
 });
 
 socket.on('text', (data) => {
+	data.message.time = new Date(data.message.time);
+	data.message.from.lastSean = new Date(data.message.from.lastSean);
 	store.dispatch({
 		type: EVENT.DATA_TEXT,
 		payload: data
@@ -61,11 +63,30 @@ socket.on('event', (event) => {
 	});
 });
 
+socket.on('update', (data) => {
+	store.dispatch({
+		type: EVENT.ROOM_UPDATE_REQUEST,
+		payload: data
+	});
+});
+
 /*
 	get all rooms
 */
 socket.getRooms = (callback) => {
-	socket.emit('get-rooms', callback);
+	socket.emit('get-rooms', (rooms) => {
+		// ToDo: error check
+		rooms.forEach((room) => {
+			room.time = new Date(room.time);
+			room.participants.forEach((participant) => {
+				participant.lastSean = new Date(participant.lastSean);
+			});
+		});
+		rooms.sort((left, right) => {
+			return right.time.getTime() - left.time.getTime();
+		});
+		callback(null, rooms);
+	});
 }
 
 /*
@@ -73,7 +94,31 @@ socket.getRooms = (callback) => {
 	room - Room to get messages from
 */
 socket.getMessages = (room, callback) => {
-	socket.emit('get-messages', room, callback);
+	socket.emit('get-messages', room, (messages) => {
+		// ToDo: error check
+		messages.forEach((message) => {
+			message.time = new Date(message.time);
+			message.from.lastSean = new Date(message.from.lastSean);
+		});
+		messages.sort((left, right) => {
+			return right.time.getTime() - left.time.getTime();
+		});
+		callback(null, messages);
+	});
+}
+
+/*
+	get updated room
+*/
+socket.getUpdate = (room, callback) => {
+	socket.emit('get-update', room, (update) => {
+		// ToDo: error check
+		update.time = new Date(update.time);
+		update.participants.forEach((participant) => {
+			participant.lastSean = new Date(participant.lastSean);
+		});
+		callback(null, update);
+	});
 }
 
 /*

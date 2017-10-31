@@ -27,6 +27,7 @@ function Socket(server) {
 		const chat = require('./chat')(socket);
 		socket.on('get-rooms', chat.onGetRooms);
 		socket.on('get-messages', chat.onGetMessages);
+		socket.on('get-update', chat.onGetUpdate);
 		socket.on('create-room', chat.onCreateRoom);
 		socket.on('add-participants', chat.onAddParticipants);
 		socket.on('exit-room', chat.onExitRoom);

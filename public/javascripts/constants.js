@@ -24,7 +24,7 @@ export default {
 			SIGNUP_FAILURE: 9
 		}
 	},
-	SOCKET: {
+	SERVER: {
 		// States
 		STATE: {
 			UNCONNECTED: 1,
@@ -43,7 +43,10 @@ export default {
 			AUTHENTICATION_FAILURE: 5,
 			CONNECTION_LOST: 6,
 			DATA_TEXT: 7,
-			DATA_EVENT: 8
+			DATA_EVENT: 8,
+			ROOMS_INITIALIZED: 9,
+			ROOM_UPDATE_REQUEST: 10,
+			ROOM_UPDATED: 11
 		}
 	}
 }

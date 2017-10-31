@@ -9,13 +9,13 @@ const await = require('asyncawait/await');
 var Schema = mongoose.Schema;
 var roomSchema = Schema({
 	name: String,
+	time: Date,
 	messages: [{
 		from: Schema.Types.ObjectId,
 		text: String,
-		time: Date,
 		status: Number // deleted, spam, etc
 	}],
-	participants: [Schema.Types.ObjectId]
+	participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }, {
 	collection: 'Room'
 });

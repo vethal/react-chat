@@ -8,5 +8,6 @@ module.exports = {
 	SEND_TEXT_FAILURE: 'Sending text failed',
 	ACCESS_DENIED: "Access denied",
 	FETCHING_ROOMS_FAILURE: "Fetching rooms failed",
-	FETCHING_MESSAGES_FAILURE: "Fetching messages failed"
+	FETCHING_MESSAGES_FAILURE: "Fetching messages failed",
+	FETCHING_UPDATE_FAILURE: "Fetching update failed"
 }

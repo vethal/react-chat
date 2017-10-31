@@ -18,8 +18,9 @@ var userSchema = Schema({
 	joined: Boolean,
 	lastSean: Date,
 	rooms: [{
-		room: Schema.Types.ObjectId,
-		read: Number // number of messages read
+		room: { type: Schema.Types.ObjectId, ref: 'Room' },
+		read: Number, // number of messages read
+		time: Date // time user added to the room
 	}]
 }, {
 	collection: 'User'
@@ -40,10 +41,15 @@ userSchema.methods.validPassword = function (password) {
 userSchema.statics.getRooms = (userId) => {
 	return getRooms(userId);
 }
+
+// get updated room
+userSchema.statics.getUpdate = (userId, room) => {
+	return getUpdate(userId, room);
+}
 	
 // add a participating room
-userSchema.statics.addRoom = (userId, room) => {
-	return addRoom(userId, room);
+userSchema.statics.addRoom = (userId, room, time) => {
+	return addRoom(userId, room, time);
 }
 
 // remove participating room
@@ -68,7 +74,7 @@ module.exports = mongoose.model('User', userSchema);
 var getRooms = async (function (userId) {
 	let model = mongoose.model('User', userSchema);
 	let record = await (model.findOne({ '_id': userId })
-		.select('rooms.read')
+		.select('rooms.read rooms.time')
 		.populate({
 			path: 'rooms.room',
 			model: 'Room',
@@ -83,9 +89,7 @@ var getRooms = async (function (userId) {
 	let result = record.toJSON().rooms.map((data) => {
 		let room = {};
 		Object.assign(room, data, data.room, { id: data.room['_id'] });
-		room.participants.forEach((data) => {
-			delete data['_id'];
-		});
+		room.participants.forEach((data) => delete data['_id']);
 		delete room.room;
 		delete room['_id'];
 		return room;
@@ -93,8 +97,33 @@ var getRooms = async (function (userId) {
 	return result;
 });
 
+// get rooms implementation
+var getUpdate = async (function (userId, room) {
+	let model = mongoose.model('User', userSchema);
+	let record = await (model.findOne({ '_id': userId },
+		{ rooms: { $elemMatch: { room: room }}})
+		.select('rooms.read rooms.time rooms.room')
+		.populate({
+			path: 'rooms.room',
+			model: 'Room',
+			select: '_id name participants',
+			populate: {
+				path: 'participants',
+				model: 'User',
+				select: 'name email lastSean'
+			}
+		})
+		.exec());
+	let result = record.toJSON().rooms[0];
+	Object.assign(result, result.room, { id: result.room['_id'] });
+	result.participants.forEach((data) => delete data['_id']);
+	delete result.room;
+	delete result['_id'];
+	return result;
+});
+
 // add room implementation
-var addRoom = async (function (userId, roomId) {
+var addRoom = async (function (userId, roomId, time) {
 	let room = await (Room.findById(roomId));
 	if (room) {
 		let model = mongoose.model('User', userSchema);
@@ -104,7 +133,8 @@ var addRoom = async (function (userId, roomId) {
 		}, { $push: {
 			rooms: {
 				room: roomId,
-				read: room.messages.length
+				read: room.messages.length,
+				time
 			}
 		}}));
 	}
