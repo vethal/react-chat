@@ -1,11 +1,10 @@
 const path = require('path');
 const BabelPolyfill = require("babel-polyfill");
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
 	entry: ['babel-polyfill', './public/javascripts/chat.jsx'],
-	devtool: 'inline-sourcemap',
 	module: {
 		loaders: [
 			{ test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
@@ -17,11 +16,7 @@ module.exports = {
 		filename: 'chat.min.js'
 	},
 	plugins: [
-		new HtmlWebpackPlugin({
-			template: './views/index.html',
-			filename: 'index.html',
-			inject: 'body'
-		}),
+		new UglifyJSPlugin(),
 		new WriteFilePlugin()
 	]
 };

@@ -47,19 +47,19 @@ socket.on('reconnecting', (attempt) => {
 	});
 });
 
+socket.on('init', (data) => {
+	store.dispatch({
+		type: EVENT.DATA_INIT,
+		payload: data
+	});
+});
+
 socket.on('text', (data) => {
 	data.message.time = new Date(data.message.time);
 	data.message.from.lastSean = new Date(data.message.from.lastSean);
 	store.dispatch({
 		type: EVENT.DATA_TEXT,
 		payload: data
-	});
-});
-
-socket.on('event', (event) => {
-	store.dispatch({
-		type: EVENT.DATA_EVENT,
-		payload: event
 	});
 });
 
@@ -81,6 +81,7 @@ socket.getRooms = (callback) => {
 			room.participants.forEach((participant) => {
 				participant.lastSean = new Date(participant.lastSean);
 			});
+			room.participants.sort((left, right) => (!left.name || right.name < left.name));
 		});
 		rooms.sort((left, right) => {
 			return right.time.getTime() - left.time.getTime();
@@ -117,6 +118,7 @@ socket.getUpdate = (room, callback) => {
 		update.participants.forEach((participant) => {
 			participant.lastSean = new Date(participant.lastSean);
 		});
+		update.participants.sort((left, right) => (!left.name || right.name < left.name));
 		callback(null, update);
 	});
 }
@@ -126,7 +128,15 @@ socket.getUpdate = (room, callback) => {
 	room - An email or a room name
 */
 socket.createRoom = (name, callback) => {
-	socket.emit('create-room', name, callback);
+	socket.emit('create-room', name, (room) => {
+		// ToDo: error check
+		room.time = new Date(room.time);
+		room.participants.forEach((participant) => {
+			participant.lastSean = new Date(participant.lastSean);
+		});
+		room.participants.sort((left, right) => (!left.name || right.name < left.name));
+		callback(null, room);
+	});
 }
 
 /*
@@ -135,7 +145,15 @@ socket.createRoom = (name, callback) => {
 	room - A room
 */
 socket.addParticipants = (participants, room, callback) => {
-	socket.emit('add-participants', { participants, room }, callback);
+	socket.emit('add-participants', participants, room, (room) => {
+		// ToDo: error check
+		room.time = new Date(room.time);
+		room.participants.forEach((participant) => {
+			participant.lastSean = new Date(participant.lastSean);
+		});
+		room.participants.sort((left, right) => (!left.name || right.name < left.name));
+		callback(null, room);
+	});
 }
 
 /*
@@ -143,7 +161,9 @@ socket.addParticipants = (participants, room, callback) => {
 	room - A room
 */
 socket.exitRoom = (room, callback) => {
-	socket.emit('exit-room', room, callback);
+	socket.emit('exit-room', room, (room) => {
+		callback(null, room);
+	});
 }
 
 /*
@@ -152,16 +172,22 @@ socket.exitRoom = (room, callback) => {
 	room - Either an email or a room
 */
 socket.sendText = (text, room, callback) => {
-	socket.emit('send-text', { text, room }, callback);
+	socket.emit('send-text', text, room, (message) => {
+		message.message.time = new Date(message.message.time);
+		message.message.from.lastSean = new Date(message.message.from.lastSean);
+		callback(null, message);
+	});
 }
 
 /*
-	send events
-	text - Event need to send
-	room - Either an email or a room
+	update read message count
+	read - number of messages read
+	room - A room
 */
-socket.sendEvent = (event, room, callback) => {
-	socket.emit('send-event', { event, room }, callback);
+socket.updateRead = (read, room, callback) => {
+	socket.emit('update-read', read, room, (result) => {
+		callback(null, result);
+	});
 }
 
 export default socket;

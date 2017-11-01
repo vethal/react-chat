@@ -1,5 +1,6 @@
 // config/passport.js
 var LocalStrategy = require('passport-local').Strategy;
+const Isemail = require('isemail');
 var User = require('../models/db/user');
 
 module.exports = function(passport) {
@@ -22,6 +23,10 @@ module.exports = function(passport) {
 	},
 	function(req, email, password, done) {
 		let emailId = email.trim().toLowerCase();
+		// validate inputs
+		if (!req.body.name || !emailId || !Isemail.validate(emailId) || !password) {
+			return done(null, false, req.flash('signupMessage', 'Name, email or password is not valid'));
+		}
 		// user.findOne wont fire unless data is sent back
 		process.nextTick(function() {
 			// checking to see if the user trying to login already exists
@@ -33,6 +38,7 @@ module.exports = function(passport) {
 				} else {
 					// create a new user
 					var newUser	= user || new User();
+					newUser.name = req.body.name;
 					newUser.email = emailId;
 					newUser.password = newUser.generateHash(password);
 					newUser.joined = true;
@@ -55,6 +61,10 @@ module.exports = function(passport) {
 		let emailId = email.trim().toLowerCase();
 		// checking to see if the user trying to login already exists
 		User.findOne({ 'email': emailId }, function(err, user) {
+			// validate inputs
+			if (!emailId || !password) {
+				return done(null, false, req.flash('signupMessage', 'Email or password is not valid'));
+			}
 			if (err) return done(err);
 			// if no user is found, return the message
 			if (!user || !user.joined) {

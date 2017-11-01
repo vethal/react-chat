@@ -32,7 +32,7 @@ function Socket(server) {
 		socket.on('add-participants', chat.onAddParticipants);
 		socket.on('exit-room', chat.onExitRoom);
 		socket.on('send-text', chat.onText);
-		socket.on('send-event', chat.onEvent);
+		socket.on('update-read', chat.onUpdateRead);
 		socket.on('disconnect', chat.onDisconnect);
 	});
 }

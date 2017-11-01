@@ -9,10 +9,10 @@ const await = require('asyncawait/await');
 var Schema = mongoose.Schema;
 var roomSchema = Schema({
 	name: String,
-	time: Date,
 	messages: [{
 		from: Schema.Types.ObjectId,
 		text: String,
+		time: Date,
 		status: Number // deleted, spam, etc
 	}],
 	participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
@@ -73,10 +73,14 @@ var getMessages = async (function (room) {
 // create room implementation
 var createRoom = async (function (name, user) {
 	let model = mongoose.model('Room', roomSchema);
-	return await (model.create({
+	let room = await (model.create({
 		name,
 		participants: [user]
 	}));
+	let result = room.toJSON();
+	result.id = result['_id'];
+	delete result['_id'];
+	return result;
 });
 
 // add text implementation

@@ -97,7 +97,7 @@ var getRooms = async (function (userId) {
 	return result;
 });
 
-// get rooms implementation
+// get update implementation
 var getUpdate = async (function (userId, room) {
 	let model = mongoose.model('User', userSchema);
 	let record = await (model.findOne({ '_id': userId },

@@ -9,5 +9,6 @@ module.exports = {
 	ACCESS_DENIED: "Access denied",
 	FETCHING_ROOMS_FAILURE: "Fetching rooms failed",
 	FETCHING_MESSAGES_FAILURE: "Fetching messages failed",
-	FETCHING_UPDATE_FAILURE: "Fetching update failed"
+	FETCHING_UPDATE_FAILURE: "Fetching update failed",
+	UPDATE_READ_FAILURE: "Updating read failed"
 }
