@@ -1,6 +1,6 @@
 # react-chat
 
-React-Chat is a multi parti chat application developed using React framework. It is built on top of socket.io to handle communication over websocket.
+React-Chat is a multi party chat application developed using React framework. It is built on top of socket.io to handle communication over websocket.
 
 ## Prerequisites
 - Node.js
@@ -8,7 +8,7 @@ React-Chat is a multi parti chat application developed using React framework. It
 - Yarn or npm
  
 ## Configuration
-Host name need to be configured in `'app/constants.js'` in `HOST` attribute.
+Hostname need to be configured in `'app/constants.js'` in `HOST` attribute.
 If www.example.com is the host then,
 ```
 export default {
@@ -27,7 +27,7 @@ export default {
 }
 ```
 
-A session scret need to be configured in `'config/configuration.js'` in `SERVER.SESSION_SECRET` attribute.
+A session secret need to be configured in `'config/configuration.js'` in `SERVER.SESSION_SECRET` attribute.
 
 If `'my-session-secret'` is the secret then,
 ```
@@ -46,15 +46,15 @@ Webpack module bundler is used to build. While developing, both React and Node.j
 ```
 yarn build
 ```
-- **start:** This target can be used to run Node.js server in production. This will run indefinettely and will listen to default port 80. Fully functional fullstack app can be accessed through http://localhost or through the configured host.
+- **start:** This target can be used to run Node.js server in production. This will run indefinitely and will listen to default port 80. Fully functional fullstack app can be accessed through http://localhost or through the configured host.
 ```
 yarn start
 ```
-- **client:** This target can be used to build and bundle client side scripts to `'chat.min.js'` for development. This will run indefinettely and will listen to port 8080. React app can be accessed through http://localhost:8080/public or through the configured host. This target will also monitor for any change that happens to client side scripts. If a change detected, it will rebuild `'chat.min.js'` and its map file for debugging.
+- **client:** This target can be used to build and bundle client side scripts to `'chat.min.js'` for development. This will run indefinitely and will listen to port 8080. React app can be accessed through http://localhost:8080/public or through the configured host. This target will also monitor for any change that happens to client side scripts. If a change detected, it will rebuild `'chat.min.js'` and its map file for debugging.
 ```
 yarn client
 ```
-- **server:** This target can be used to build and run Node.js server. This will run indefinettely and will listen to port 3000. Fully functional fullstack app can be accessed through http://localhost:3000  or through the configured host.
+- **server:** This target can be used to build and run Node.js server. This will run indefinitely and will listen to port 3000. Fully functional fullstack app can be accessed through http://localhost:3000  or through the configured host.
 ```
 yarn server
 ```
