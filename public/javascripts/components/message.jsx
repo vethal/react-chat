@@ -12,6 +12,7 @@ export default class Message extends React.Component {
 				<div>
 					<div class="name">{from.name}</div>
 					<div class="email">{from.email}</div>
+					<div class="space"></div>
 					<div class="time">{time}</div>
 				</div>
 				<div class="text">{text}</div>

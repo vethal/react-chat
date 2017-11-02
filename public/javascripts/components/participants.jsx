@@ -52,7 +52,7 @@ export default class Participants extends React.Component {
 			return (
 				<div class="participants">
 					<div class="addParticipants">
-						<input ref={this.participantsRef.bind(this)} onKeyUp={this.handelKeyUp.bind(this)} class="list" placeholder="Comma separated emails"/>
+						<input ref={this.participantsRef.bind(this)} onKeyUp={this.handelKeyUp.bind(this)} class="emailList" placeholder="Comma separated emails"/>
 						<input onClick={this.handleAddParticipants.bind(this)} class="add fa fa-plus" value="&#xf067;" type="button" aria-hidden="true"/>
 					</div>
 					<div class="participantList">

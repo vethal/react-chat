@@ -3,10 +3,10 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node ./bin/www",
+		"start": "set NODE_ENV=production && set PORT=80 && node ./bin/www",
 		"server": "nodemon ./bin/www",
 		"client": "webpack-dev-server",
-		"build": "set NODE_ENV=production&&webpack -p --config ./webpack.production.config.js",
+		"build": "set NODE_ENV=production && webpack -p --config ./webpack.production.config.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {

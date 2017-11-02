@@ -18,11 +18,15 @@ import Message from './message.jsx'
 })
 export default class Messages extends React.Component {
 	componentDidMount() {
-		this.messageList.scrollTop = this.messageList.scrollHeight;
+		if (this.messageList) {
+			this.messageList.scrollTop = this.messageList.scrollHeight;
+		}
 	}
 
 	componentDidUpdate() {
-		this.messageList.scrollTop = this.messageList.scrollHeight;
+		if (this.messageList) {
+			this.messageList.scrollTop = this.messageList.scrollHeight;
+		}
 	}
 
 	messageListRef(element) {
@@ -49,14 +53,8 @@ export default class Messages extends React.Component {
 			children = current.messages.map((message, index) => {
 				return <Message key={index} message={message} own={String(message.from.email === email)}/>
 			}).reverse();
-		} else {
-			background = <div class="background">React Chat</div>;
-		}
-
-		return (
-			<div class="messages">
+			var body = (<div class="messages">
 				<div ref={this.messageListRef.bind(this)} class="messageList">
-					{background}
 					{children}
 				</div>
 				<div class="compose">
@@ -65,8 +63,14 @@ export default class Messages extends React.Component {
 						<input onClick={this.handleAddMessages.bind(this)} class="send fa fa-paper-plane" value="&#xf1d8;" type="button" aria-hidden="true"/>
 					</div>
 				</div>
-			</div>
-		);
+			</div>);
+		} else {
+			var body = (<div class="messages">
+				<div class="background">React Chat</div>;
+			</div>);
+		}
+
+		return body;
 	}
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux"
 import relativeDate  from 'relative-date';
-
 import Constants from '../constants';
 
 @connect((store) => ({}),
@@ -34,6 +33,7 @@ export default class Room extends React.Component {
 				<div onClick={this.handleSelect.bind(this)}>
 					<div>
 						<div class="name">{room.name}</div>
+						<div class="space"></div>
 						<div class="time">{time}</div>
 					</div>
 					<div>

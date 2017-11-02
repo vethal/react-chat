@@ -5,7 +5,7 @@ body {
 	width: 100vw;
 	margin: 0;
 	overflow: hidden;
-    font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 *::-webkit-scrollbar {
@@ -49,6 +49,7 @@ body {
 
 .layout .rooms > .user > div {
 	flex: 1 0 0;
+	width: 0px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -57,6 +58,8 @@ body {
 .layout .rooms > .user .name {
 	padding: 3px;
 	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
@@ -64,6 +67,8 @@ body {
 	padding: 3px;
 	font-size: 0.9rem;
 	color: dimgrey;
+	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
@@ -83,6 +88,7 @@ body {
 .layout .rooms > .createRoom > .roomName {
 	flex: 1 1 0;
 	height: 25px;
+	width: 0px;
 	padding-left: 5px;
 	margin: 15px;
 	margin-right: 0;
@@ -146,16 +152,24 @@ body {
 }
 
 .layout .rooms .room .name {
-	flex: 1 1 0;
 	padding: 3px;
-	text-overflow: ellipsis;
 	color: darkslategrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms .room .space {
+	flex: 1 1 0;
 }
 
 .layout .rooms .room .time {
 	margin: 5px;
 	font-size: 0.8rem;
 	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .layout .rooms .room .last {
@@ -165,7 +179,7 @@ body {
 	font-size: 0.9rem;
 	color: darkgrey;
 	overflow: hidden;
-    white-space: nowrap;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
@@ -183,21 +197,21 @@ body {
 }
 
 .layout .messages {
-	flex: 2 1 0;
+	flex: 2 2 0;
 	display: flex;
 	flex-direction: column;
+	background-color: grey;
 }
 
 .layout .messages > .messageList {
-	flex: 1 1 0;
+	flex: 1 0 0;
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
-    box-shadow: inset 1px 1px 1px;
-    background-color: grey;
+	box-shadow: inset 1px 1px 1px;
 }
 
-.layout .messages > .messageList > .background {
+.layout .messages > .background {
 	font-size: 3em;
 	color: white;
 	font-weight: bold;
@@ -228,22 +242,32 @@ body {
 .layout .messages .message .name {
 	font-weight: bold;
 	color: cornflowerblue;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .layout .messages .message .email {
-	flex: 1 1 0;
 	padding: 3px;
 	font-size: 0.9rem;
 	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.layout .messages .message .space {
+	flex: 1 1 0;
 }
 
 .layout .messages .message .time {
 	margin: 5px;
 	font-size: 0.8rem;
 	color: darkgrey;
-	align-self: flex-end;
 	cursor: default;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .layout .messages .message[own=true] {
@@ -253,11 +277,11 @@ body {
 }
 
 .layout .messages .message[own=true] .name {
-	visibility: hidden;
+	display: none;
 }
 
 .layout .messages .message[own=true] .email {
-	visibility: hidden;
+	display: none;
 }
 
 .layout .messages .message .text {
@@ -276,10 +300,11 @@ body {
 
 .layout .messages > .compose .input {
 	flex: 1 1 0;
+	width: 0px;
 	resize: none;
-    margin-right: 15px;
-    border-radius: 5px;
-    box-shadow: inset 1px 1px 1px lightgrey;
+	margin-right: 15px;
+	border-radius: 5px;
+	box-shadow: inset 1px 1px 1px lightgrey;
 }
 
 .layout .messages > .compose .send {
@@ -291,9 +316,9 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-    background-color: whitesmoke;
-    border-radius: 5px;
-    border: 1px solid darkgrey;
+	background-color: whitesmoke;
+	border-radius: 5px;
+	border: 1px solid darkgrey;
 }
 
 .layout .participants {
@@ -308,9 +333,10 @@ body {
 	display: flex;
 }
 
-.layout .participants > .addParticipants > .list {
+.layout .participants > .addParticipants > .emailList {
 	flex: 1 1 0;
 	height: 25px;
+	width: 0px;
 	padding-left: 5px;
 	margin: 15px;
 	margin-right: 0;
@@ -338,9 +364,7 @@ body {
 }
 
 .layout .participants .participant {
-	flex-shrink: 0;
 	display: flex;
-	align-items: stretch;
 }
 
 .layout .participants .participant > .avatar {
@@ -361,14 +385,19 @@ body {
 .layout .participants .participant .name {
 	padding: 3px;
 	font-size: 0.8rem;
-	text-overflow: ellipsis;
 	color: darkslategrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .layout .participants .participant .email {
 	padding: 3px;
 	font-size: 0.8rem;
 	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .layout .participants > .participantList > .space {
