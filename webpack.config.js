@@ -4,7 +4,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	entry: ['babel-polyfill', './public/javascripts/chat.jsx'],
+	entry: ['babel-polyfill', './app/chat.jsx'],
 	devtool: 'inline-sourcemap',
 	module: {
 		loaders: [
@@ -13,8 +13,8 @@ module.exports = {
 		]
 	},
 	output: {
-		path: path.join(__dirname, 'public/javascripts/'),
-		filename: 'chat.min.js'
+		path: path.join(__dirname, 'public/'),
+		filename: 'javascripts/chat.min.js'
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
