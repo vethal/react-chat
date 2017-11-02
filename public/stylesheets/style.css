@@ -1,0 +1,437 @@
+@import "font-awesome.min.css";
+
+body {
+	height: 100vh;
+	width: 100vw;
+	margin: 0;
+	overflow: hidden;
+	font-family: sans-serif;
+}
+
+*::-webkit-scrollbar {
+	width: 0.5em;
+}
+
+*::-webkit-scrollbar-track {
+	background-color: whitesmoke;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: lightgrey;
+}
+
+.layout {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+}
+
+.layout .rooms {
+	flex: 1 1 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.layout .rooms > .user {
+	padding: 5px;
+	padding-bottom: 0;
+	background-color: gainsboro;
+	display: flex;
+	align-items: center;
+}
+
+.layout .rooms > .user > .avatar {
+	width: 52px;
+	height: 52px;
+	margin: 10px;
+	border-radius: 50%;
+}
+
+.layout .rooms > .user > div {
+	flex: 1 0 0;
+	width: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.layout .rooms > .user .name {
+	padding: 3px;
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms > .user .email {
+	padding: 3px;
+	font-size: 0.9rem;
+	color: dimgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms > .user .fa-sign-out {
+	padding: 15px;
+	font-size: 2em;
+	color: grey;
+}
+
+.layout .rooms > .createRoom {
+	padding: 5px;
+	padding-top: 0;
+	background-color: gainsboro;
+	display: flex;
+}
+
+.layout .rooms > .createRoom > .roomName {
+	flex: 1 1 0;
+	height: 25px;
+	width: 0px;
+	padding-left: 5px;
+	margin: 15px;
+	margin-right: 0;
+	border: 1px solid darkgrey;
+	border-right: none;
+}
+
+.layout .rooms > .createRoom > .create {
+	height: 29px;
+	max-width: 29px;
+	margin: 15px;
+	margin-left: 0;
+	color: darkgrey;
+	background-color: white;
+	border: 1px solid darkgrey;
+	border-left: none;
+	cursor: pointer;
+}
+
+.layout .rooms > .roomList {
+	flex: 1 1 0;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.layout .rooms .room {
+	flex-shrink: 0;
+	display: flex;
+	align-items: stretch;
+}
+
+.layout .rooms .room:hover {
+	background-color: #fbfbfb;
+}
+
+.layout .rooms .room[focus=true] {
+	background-color: whitesmoke;
+}
+
+.layout .rooms .room > .avatar {
+	width: 32px;
+	height: 32px;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 50%;
+	border: 1px solid darkgrey;
+	background-color: gainsboro;
+}
+.layout .rooms .room > div {
+	flex: 1 1 0;
+	border-bottom: 1px solid whitesmoke;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.layout .rooms .room > div > div {
+	display: flex;
+}
+
+.layout .rooms .room .name {
+	padding: 3px;
+	color: darkslategrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms .room .space {
+	flex: 1 1 0;
+}
+
+.layout .rooms .room .time {
+	margin: 5px;
+	font-size: 0.8rem;
+	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms .room .last {
+	flex: 1 1 0;
+	width: 0px;
+	padding: 3px;
+	font-size: 0.9rem;
+	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .rooms .room .unread {
+	min-width: 1em;
+	padding: 5px;
+	margin: 5px;
+	font-size: 12px;
+	color: white;
+	background-color: mediumseagreen;
+	border-radius: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.layout .messages {
+	flex: 2 2 0;
+	display: flex;
+	flex-direction: column;
+	background-color: grey;
+}
+
+.layout .messages > .messageList {
+	flex: 1 0 0;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	box-shadow: inset 1px 1px 1px;
+}
+
+.layout .messages > .background {
+	font-size: 3em;
+	color: white;
+	font-weight: bold;
+	text-shadow: 1px 1px 5px black;
+	cursor: default;
+	flex: 1 1 0;
+	align-self: center;
+	display: flex;
+	align-items: center;
+}
+
+.layout .messages .message {
+	width: 60%;
+	padding: 0.5em;
+	margin: 2%;
+	background-color: white;
+	box-shadow: 1px 1px 1px;
+	border-radius: 5px;
+	margin-left: 5%;
+}
+
+.layout .messages .message > div {
+	margin: 5px;
+	display: flex;
+	align-items: center;
+}
+
+.layout .messages .message .name {
+	font-weight: bold;
+	color: cornflowerblue;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .messages .message .email {
+	padding: 3px;
+	font-size: 0.9rem;
+	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .messages .message .space {
+	flex: 1 1 0;
+}
+
+.layout .messages .message .time {
+	margin: 5px;
+	font-size: 0.8rem;
+	color: darkgrey;
+	cursor: default;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .messages .message[own=true] {
+	align-self: flex-end;
+	background-color: floralwhite;
+	margin-right: 5%;
+}
+
+.layout .messages .message[own=true] .name {
+	display: none;
+}
+
+.layout .messages .message[own=true] .email {
+	display: none;
+}
+
+.layout .messages .message .text {
+	margin: 5px;
+	color: darkslategrey;
+}
+
+.layout .messages > .compose {
+}
+
+.layout .messages > .compose > div {
+	display: flex;
+	padding: 15px;
+	background-color: gainsboro;
+}
+
+.layout .messages > .compose .input {
+	flex: 1 1 0;
+	width: 0px;
+	resize: none;
+	margin-right: 15px;
+	border-radius: 5px;
+	box-shadow: inset 1px 1px 1px lightgrey;
+}
+
+.layout .messages > .compose .send {
+	height: 70px;
+	width: 100px;
+	cursor: pointer;
+	color: grey;
+	font-size: 1.2em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: whitesmoke;
+	border-radius: 5px;
+	border: 1px solid darkgrey;
+}
+
+.layout .participants {
+	flex: 1 1 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.layout .participants > .addParticipants {
+	padding: 15px;
+	background-color: gainsboro;
+	display: flex;
+}
+
+.layout .participants > .addParticipants > .emailList {
+	flex: 1 1 0;
+	height: 25px;
+	width: 0px;
+	padding-left: 5px;
+	margin: 15px;
+	margin-right: 0;
+	border: 1px solid darkgrey;
+	border-right: none;
+}
+
+.layout .participants > .addParticipants > .add {
+	height: 29px;
+	max-width: 29px;
+	margin: 15px;
+	margin-left: 0;
+	color: darkgrey;
+	background-color: white;
+	border: 1px solid darkgrey;
+	border-left: none;
+	cursor: pointer;
+}
+
+.layout .participants .participantList {
+	flex: 1 1 0;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.layout .participants .participant {
+	display: flex;
+}
+
+.layout .participants .participant > .avatar {
+	width: 32px;
+	height: 32px;
+	margin: 10px;
+	border-radius: 50%;
+	background-color: antiquewhite;
+}
+.layout .participants .participant > div {
+	flex: 1 1 0;
+	border-bottom: 1px solid whitesmoke;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.layout .participants .participant .name {
+	padding: 3px;
+	font-size: 0.8rem;
+	color: darkslategrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .participants .participant .email {
+	padding: 3px;
+	font-size: 0.8rem;
+	color: darkgrey;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.layout .participants > .participantList > .space {
+	flex: 1 1 0;
+}
+
+.layout .participants > .participantList > .exitRoom {
+	padding: 5px;
+	cursor: pointer;
+	flex-shrink: 0;
+	color: darkslategrey;
+	border-left: 1px solid whitesmoke;
+	background-color: gainsboro;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.layout .participants > .participantList > .exitRoom:hover {
+	background-color: lightgrey;
+}
+
+.layout .participants > .participantList > .exitRoom > span {
+	padding: 15px;
+	color: darkslategrey;
+}
+
+.layout .participants > .participantList > .exitRoom > .exit {
+	font-size: 1.3em;
+	cursor: pointer;
+	border: none;
+	color: darkgrey;
+	background-color: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
